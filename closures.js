@@ -23,14 +23,12 @@ function outer() {
 */
   
 // Code Here
-
+const inner = outer();
 
 
 //Once you do that, invoke inner.
 
-//Code Here
-
-
+inner();
 
 ////////// PROBLEM 2 //////////
 
@@ -52,7 +50,7 @@ function callFriend(name) {
 */
 
 //Code Here
-
+const callJake = callFriend('Jake','435-555-9248');
 
 
 ////////// PROBLEM 3 //////////
@@ -62,15 +60,20 @@ function callFriend(name) {
 */
 
 //Code Here
-
+function makeCounter(){
+  let counter=1;
+  return function count(){
+   return counter++;
+  }
+}
 
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+var count = makeCounter();
+count();  //1
+count();  //2
+count();  //3
+count();  //4
 
 
 
@@ -85,19 +88,23 @@ function callFriend(name) {
   http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-example?answertab=votes#tab-top
 */
 
-function counterFactory(value) {
-  // Code here.
-
-  return {
-
-  };
-}
+function counterFactory(value){
+  let amount = value;
+    return{
+      inc: function(){
+        return ++amount;
+      },
+      dec: function(){
+        return --amount;
+      }
+    }
+  }
 
 counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+counter.inc() //11
+counter.inc() //12
+counter.inc() //13
+counter.dec() //12
 
 
 
@@ -113,9 +120,12 @@ function motivation( firstname, lastname ) {
   var welcomeText = "You're doing awesome, keep it up";
 
   // code message function here.
-
+  return function(text){
+    return message = `${welcomeText}` +" "+ `${firstname}` +" "+ `${lastname}`+"."
+  
   //Uncommment this to return the value of your message function
   //return message;
+  }
 }
 
 var greeting = motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
@@ -139,13 +149,19 @@ var module = (function() {
   function privateMethod(){
     return "Hi, I'm " + person.name + ", age " + person.age + " from " + person.location;
   }
-
   // Anything that is being returned is made public and can be invoked from
   // outside our lexical scope
   return {
     // Code here.
+    publicMethod: () =>{
+      return privateMethod();
+    }
   };
 })();
+
+module.publicMethod();
+
+
 
 
 
@@ -160,9 +176,16 @@ var module = (function() {
 
 function secretNumber() {
   var secret = 143;
-
   return {
     // Code here
+    addToSecret: function(num){
+      secret +=num
+      return secret;
+    },
+    takeAwayFromSecret: function(num){
+      secret -= num
+      return secret;
+    }
   };
 }
 
@@ -186,11 +209,15 @@ function secretNumber() {
   Fix the code below to log the desired output.
 */
 
-function timeOutCounter() {
-  for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000);
+function timeOutCounter(){
+  for (var i = 0; i <= 5; i++){
+    function inner(j){
+      setTimeout(function(){
+        console.log(j)
+      }, j * 1000)
+    }
+    inner(i)
   }
 }
+
 timeOutCounter();
